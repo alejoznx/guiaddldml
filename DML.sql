@@ -47,5 +47,76 @@ CALL insertar_producto("Impresora HP laserjet PRO M26nw",180,3);
     
     SELECT nombre, truncate(precio,0) AS precio_truncado FROM productos;
     
+    SELECT codigo FROM productos;
+    
+    SELECT distinct codigo_fabricante FROM productos;
+    
+    SELECT nombre FROM fabricante order by nombre asc;
+    
+    SELECT nombre FROM fabricante order by nombre desc;
+    
+    SELECT nombre FROM productos order by nombre asc;
+    
+    SELECT precio FROM productos order by precio desc;
+    
+    SELECT * FROM fabricante limit 5;
+    
+    SELECT * FROM fabricante limit 3,2;
+    
+    SELECT nombre, precio FROM productos order by precio asc limit 1;
+    
+    SELECT nombre, precio FROM productos order by precio desc limit 1;
+    
+    SELECT nombre FROM productos WHERE codigo_fabricante = 2;
+    
+    SELECT nombre FROM productos WHERE precio <=120;
+    
+    SELECT nombre FROM productos WHERE precio >400;
+    
+    SELECT nombre FROM productos WHERE precio <=400;
+    
+    SELECT nombre FROM productos WHERE precio >=80 and precio <=300;
+    
+    SELECT nombre FROM productos WHERE precio between 60 and 200;
+    
+    SELECT nombre FROM productos WHERE precio >200 and codigo_fabricante <>6;
+    
+    SELECT nombre FROM productos WHERE codigo_fabricante = 1 or codigo_fabricante = 3 or codigo_fabricante = 5;
+    
+    SELECT nombre FROM productos WHERE codigo_fabricante in (1,3,5);
+    
+    SELECT nombre, precio * 100 as precio_centimos FROM productos;
+    
+    SELECT nombre FROM fabricante WHERE nombre like 's%';
+    
+    SELECT nombre FROM fabricante WHERE nombre like '%e';
+    
+    SELECT nombre FROM fabricante WHERE nombre like '%w%';
+    
+    SELECT nombre FROM fabricante WHERE length(nombre) = 4;
+    
+    SELECT nombre FROM productos WHERE nombre like '%Portatil%';
+    
+    SELECT nombre FROM productos WHERE nombre like '%Monitor%' and precio <215;
+    
+    SELECT nombre, precio FROM productos WHERE precio >=180 order by precio desc, nombre asc;
+    
+    
+    
+    
+    
+    
+    SELECT p.nombre as nombre_producto, p.precio, f.nombre as nombre_fabricante FROM productos p
+    JOIN fabricante f on p.codigo_fabricante = f.codigo;
+    
+    SELECT p.nombre as nombre_producto, p.precio, f.nombre as nombre_fabricante FROM productos p
+    JOIN fabricante f on p.codigo_fabricante = f.codigo order by f.nombre asc;
+    
+    
+    
+    
+    
+    
+    
     
     
