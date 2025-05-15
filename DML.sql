@@ -110,7 +110,79 @@ CALL insertar_producto("Impresora HP laserjet PRO M26nw",180,3);
     JOIN fabricante f on p.codigo_fabricante = f.codigo;
     
     SELECT p.nombre as nombre_producto, p.precio, f.nombre as nombre_fabricante FROM productos p
-    JOIN fabricante f on p.codigo_fabricante = f.codigo order by f.nombre asc;
+    JOIN fabricante f on p.codigo_fabricante = f.codigo order by  f.nombre asc;
+    
+    SELECT p.codigo as codigo_producto, p.nombre as nombre_producto, f.codigo as codigo_fabricante, f.nombre as nombre_fabricante from productos p
+    JOIN fabricante f on p.codigo_fabricante = f.codigo;
+    
+    SELECT p.nombre as nombre_producto, p.precio, f.nombre as nombre_fabricante FROM productos p
+    JOIN fabricante f on p.codigo_fabricante = f.codigo order by p.precio asc LIMIT 1;
+    
+    SELECT p.nombre as nombre_producto, p.precio, f.nombre as nombre_fabricante FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo order by p.precio DESC limit 1;
+    
+    SELECT p.nombre as nombre_producto, p.precio FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo WHERE f.nombre = 'Lenovo';
+    
+    SELECT p.nombre as nombre_producto, p.precio FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo WHere f.nombre = 'crucial' and p.precio >200;
+    
+  SELECT p.nombre as nombre_producto, f.nombre as nombre_fabricante FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo WHere f.nombre = 'Asus' or f.nombre = 'Hewlett-Packard' or f.nombre = 'Seagate';
+    
+    SELECT p.nombre as nombre_producto, f.nombre as nombre_fabricante FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo WHere f.nombre in ('Asus','Hewlett-Packard','Seagate');
+    
+   SELECT p.nombre as nombre_producto, p.precio FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo WHERE f.nombre regexp '[eE]$';
+    
+	SELECT p.nombre as nombre_producto, p.precio FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo WHERE f.nombre like '%w%';
+    
+    SELECT p.nombre as nombre_producto, p.precio, f.nombre as nombre_fabricante FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo WHERE p.precio >=180 order by p.precio desc, 
+    p.nombre asc;
+    
+    SELECT distinct f.codigo, f.nombre FROM fabricante f
+    JOIN productos p on f.codigo = p.codigo_fabricante;
+    
+    
+    
+    
+    
+    
+    SELECT f.nombre as nombre_fabricante, p.nombre as nombre_producto from fabricante f
+    LEFT JOIN productos p on f.codigo = p.codigo_fabricante; 
+    
+    SELECT f.nombre as nombre_fabricante FROM fabricante f 
+    LEFT JOIN productos p on f.codigo = p.codigo_fabricante WHERE p.codigo is null;
+    
+    
+    
+    
+    
+    
+    SELECT count(*) as total_productos FROM productos;
+    
+    SELECT count(*) as total_fabricantes FROM fabricante;
+    
+    SELECT count(DISTINCT codigo_fabricante) as fabricantes_diferentes_en_productos FROM productos;
+    
+    SELECT avg (precio) as media_precios FROM productos;
+    
+    SELECT min(precio) as precio_mas_barato FROM productos;
+    
+    SELECT max(precio) as precio_mas_caro FROM productos;
+    
+    SELECT nombre, precio FROM productos ORDER BY precio asc limit 1;
+    
+    SELECT nombre, precio FROM productos ORDER BY precio desc limit 1;
+    
+    SELECT sum(precio) as suma_total_precios FROM productos;
+    
+    
+    
+    
     
     
     
