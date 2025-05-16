@@ -180,12 +180,136 @@ CALL insertar_producto("Impresora HP laserjet PRO M26nw",180,3);
     
     SELECT sum(precio) as suma_total_precios FROM productos;
     
+    SELECT count(*) as productos_asus FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo WHERE f.nombre = 'Asus';
+    
+    SELECT avg(p.precio) as medio_precio_asus FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo WHERE f.nombre = 'Asus';
+    
+    SELECT max(p.precio) as precio_maximo ,
+		   min(p.precio) as precio_minimo,
+           avg(p.precio) as precio_medio,
+           count(*) as total_productos FROM productos p 
+	JOIN fabricante f on p.codigo_fabricante = f.codigo WHERE f.nombre = 'Crucial';
+    
+    SELECT f.nombre as nombre_fabricante, count(p.codigo) as total_productos FROM fabricante f 
+    LEFT JOIN productos p on f.codigo = p.codigo_fabricante group by f.codigo, f.nombre order by total_productos desc;
+    
+    
+    SELECT max(p.precio) as precio_maximo ,
+		   min(p.precio) as precio_minimo,
+           avg(p.precio) as precio_medio
+           FROM fabricante f
+	JOIN productos p on p.codigo_fabricante = f.codigo group by f.nombre;
+    
+    
+    SELECT f.codigo as codigo_fabricante,
+		   max(p.precio) as precio_maximo ,
+		   min(p.precio) as precio_minimo,
+           avg(p.precio) as precio_medio,
+           count(*) as total_productos FROM fabricante f
+	JOIN productos p ON  f.codigo = p.codigo_fabricante
+    group by f.codigo having avg (p.precio) >200;
+    
+    
+    SELECT f.nombre as nombre_fabricante,
+           max(p.precio) as precio_maximo ,
+		   min(p.precio) as precio_minimo,
+           avg(p.precio) as precio_medio,
+           count(*) as total_productos FROM fabricante f
+	JOIN productos p ON  f.codigo = p.codigo_fabricante
+    group by f.nombre having avg (p.precio) >200; 
+    
+    SELECT count(p.codigo) as total_producto FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo WHERE p.precio >=180;
+    
+    SELECT f.nombre, count(*) as cantidad FROM fabricante f 
+    JOIN productos p on f.codigo = p.codigo_fabricante WHERE p.precio >=180 group by f.nombre;
+    
+    SELECT f.codigo as codigo_fabricante, avg (p.precio) as precio_medio FROM fabricante f 
+    JOIN productos p on f.codigo = p.codigo_fabricante group by f.codigo;    
+    
+    
+    SELECT f.nombre,  avg (p.precio) as precio_medio FROM fabricante f 
+    JOIN productos p on f.codigo = p.codigo_fabricante group by f.nombre;    
+    
+    
+    SELECT f.codigo as codigo_fabricante, avg (p.precio) as precio_medio FROM fabricante f 
+    JOIN productos p on f.codigo = p.codigo_fabricante group by f.codigo;  
+    
+    
+    SELECT f.nombre, avg(p.precio) as precio_medio FROM fabricante f 
+    JOIN productos p on f.codigo = p.codigo_fabricante group by f.nombre having avg(p.precio)>=150;
+    
+    SELECT f.nombre, count(*) as total_productos FROM fabricante f 
+    JOIN productos p on f.codigo = p.codigo_fabricante  group by f.nombre having count(*) >=2;
+    
+    SELECT f.nombre, count(*) as total FROM fabricante f 
+    JOIN productos p on f.codigo = p.codigo_fabricante WHERE p.precio >=220 group by f.nombre;
+    
+    SELECT f.nombre, count(p.codigo) as total FROM fabricante f 
+    LEFT JOIN productos p on f.codigo = p.codigo_fabricante and p.precio >=220 group by f.nombre;
+    
+    SELECT f.nombre, sum(p.precio) as suma_precios FROM fabricante f 
+    JOIN productos p on f.codigo = p.codigo_fabricante group by f.nombre having sum(p.precio) >1000;
+    
+    SELECT p.nombre as producto, p.precio, f.nombre as fabricante FROM productos p 
+    JOIN fabricante f on p.codigo_fabricante = f.codigo WHERE p.precio = (select max(p2.precio)FROM productos p2 WHERE p2.codigo_fabricante = p.codigo_fabricante) order by f.nombre;
     
     
     
     
     
     
+    
+    SELECT * FROM productos WHERE codigo_fabricante = (select codigo FROM fabricante where nombre = 'Lenovo');
+    
+    SELECT * FROM productos WHERE precio = (select max(precio)FROM productos WHERE codigo_fabricante = (select codigo FROM fabricante where nombre = 'Lenovo'));
+    
+    SELECT p.nombre FROM productos p
+    JOIN fabricante f on p.codigo_fabricante WHERE f.nombre = 'Lenovo' and p.precio= (SELECT max(p2.precio)from productos p2 join fabricante f2 on p2.codigo = f2.codigo where f2.nombre = 'lenovo') ;
+    
+    
+    SELECT p.nombre FROM productos p
+    JOIN fabricante f on p.codigo_fabricante WHERE f.nombre = 'Hewlett-Packard' and p.precio= (SELECT min(p2.precio)from productos p2 join fabricante f2 on p2.codigo_fabricante = f2.codigo where f2.nombre = 'Hewlett-Packard') ;
+    
+    
+    SELECT p.* FROM productos p where p.precio >= (SELECT max(p2.precio)from productos p2 join fabricante f2 on p2.codigo_fabricante = f2.codigo where f2.nombre = 'Lenovo') ;
+    
+    SELECT p.* FROM productos p JOin fabricante f on p.codigo_fabricante = f.codigo where f.nombre = 'Asus' and p.precio >= (SELECT avg(precio) from productos) ;
+    
+    
+    
+    
+    
+    
+    
+    SELECT * FROM productos p WHERE precio >= ALL(SELECT precio FROM productos);
+
+    SELECT * FROM productos p WHERE precio <= ALL(SELECT precio FROM productos);
+    
+    SELECT f.nombre FROM fabricante f WHERE f.codigo = ANY(SELECT p.codigo_fabricante FROM productos p);
+    
+    SELECT f.nombre FROM fabricante f WHERE f.codigo <>ALL(SELECT p.codigo_fabricante FROM productos p where p.codigo_fabricante);
+    
+    SELECT f.nombre FROM fabricante f WHERE f.codigo IN (SELECT p.codigo_fabricante FROM productos p);
+    
+    SELECT f.nombre FROM fabricante f WHERE f.codigo NOT IN (SELECT p.codigo_fabricante FROM productos p WHERE codigo_fabricante IS NOT NULL);
+
+    
+    
+    SELECT nombre FROM fabricante f WHERE EXISTS(SELECT 1 FROM productos p WHERE p.codigo_fabricante = f.codigo);
+    
+    SELECT nombre FROM fabricante f WHERE NOT EXISTS (SELECT 1 FROM productos p WHERE p.codigo_fabricante = f.codigo);
+    
+    SELECT f.nombre, (SELECT max(p.precio)FROM productos p WHERE p.codigo_fabricante = f.codigo) as precio_maximo FROM fabricante f;
+    
+    SELECT * FROM productos p1 WHERE p1.precio >=(SELECT AVG(p2.precio) FROM productos p2 WHERE p2.codigo_fabricante = p1.codigo_fabricante);
+    
+    SELECT nombre FROM productos WHERE precio = (SELECT max(precio) FROM productos WHERE codigo_fabricante = (SELECT codigo FROM fabricante WHERE nombre = 'Lenovo'));
+     
+    SELECT f.nombre FROM fabricante f 
+    JOIN productos p ON f.codigo = p.codigo_fabricante GROUP BY f.nombre HAVING COUNT(*) = (SELECT COUNT(*)FROM productos WHERE codigo_fabricante =(SELECT f.codigo FROM fabricante f WHERE f.nombre = 'Lenovo'));   
     
     
     
